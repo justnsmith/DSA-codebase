@@ -2,7 +2,6 @@
 #define FENWICK_TREE_H
 
 #include <bits/stdc++.h>
-#include <bitset>
 
 class FenwickTree {
   private:
@@ -20,42 +19,20 @@ class FenwickTree {
         }
     }
 
-    int prefix_sum(int index) {
-        int treeIndex = index + 1;
-
-        if (static_cast<size_t>(treeIndex) > tree.size() - 1) {
-            return -1;
-        }
-
-        int currentRemaining = treeIndex;
+    int prefix_sum(int pos) {
+        int i = pos + 1;
         int sum{};
-
-        while (currentRemaining - (treeIndex & -treeIndex) >= 0) {
-            if (currentRemaining == 0) {
-                break;
-            }
-            sum += tree[treeIndex];
-            currentRemaining -= (treeIndex & -treeIndex);
-            treeIndex -= treeIndex & -treeIndex;
+        while (i > 0) {
+            sum += tree[i];
+            i -= i & -i;
         }
-        return sum;
     }
 
-    void update(int pos, int value) {
-        int treeIndex = pos + 1;
-        int j = treeIndex & -treeIndex;
-        int diff = value - tree[treeIndex];
-
-        if (static_cast<size_t>(treeIndex) > tree.size() - 1) {
-            return;
-        }
-
-        tree[treeIndex] = value;
-
-        while (static_cast<size_t>(j + treeIndex) < tree.size() - 1) {
-            tree[treeIndex + j] += diff;
-            treeIndex += j;
-            j = treeIndex & -treeIndex;
+    void update(int pos, int delta) {
+        int i = pos + 1;
+        while (i < tree.size()) {
+            tree[i] += delta;
+            i += i & -i;
         }
     }
 

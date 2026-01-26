@@ -2,7 +2,6 @@
 #define BST_H
 
 #include <bits/stdc++.h>
-#include <bitset>
 
 class BST {
   private:
